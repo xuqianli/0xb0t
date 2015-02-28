@@ -4,11 +4,43 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var SerialPort = require("serialport").SerialPort
+
+
+var serialPort = new SerialPort("/dev/ttyACM0", {
+  baudrate: 9600,
+  dataBits: 8,
+  parity: 'none',
+  stopBits: 1,
+  flowControl: false,
+}, false); // this is the openImmediately flag [default is true]
+
+serialPort.open(function (error) {
+  if ( error ) {
+    console.log('failed to open: '+error);
+  } else {
+    console.log('open');
+    serialPort.on('data', function(data) {
+      console.log('data received: ' + data);
+    });
+    serialPort.write("ls\n", function(err, results) {
+      console.log('err ' + err);
+      console.log('results ' + results);
+    });
+  }
+});
+
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var app = express(); 
+
+
+var app = express();
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
