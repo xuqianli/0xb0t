@@ -15,23 +15,22 @@ var serialPort = new SerialPort("/dev/ttyACM0", {
   flowControl: false,
 }, false); // this is the openImmediately flag [default is true]
 
-serialPort.on("open", function () {
-  console.log('open');
+serialPort.open(function (error) {
+  if ( error ) {
+    console.log('failed to open: '+error);
+  } else {
+    console.log('open');
+    serialPort.on('data', function(data) {
+      console.log('data received: ' + data);
+    });
+    serialPort.write("ls\n", function(err, results) {
+      console.log('err ' + err);
+      console.log('results ' + results);
+    });
+  }
+});
 
-  serialPort.on('data', function(data) {
-      result = data.trim();
-      console.log('data received: ' + result);
-      if (result === 'OK') {
-          console.log('command successful');
-      }
-      else {
-          console.log('command not successful');
-      }
- });
 
-serialPort.on('error', function (err) {
-     console.error("error", err);
- });
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
