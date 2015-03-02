@@ -1,3 +1,5 @@
+
+
 //Sonar 1 ---------- left
 int echoPin1 =9;
 int initPin1 =10;
@@ -16,9 +18,24 @@ int distance3 =0;
 //defining constants
 const int speedA = 200;
 const int speedB = 200;
+const int MAX_COMMAND_LENGTH = 255;
 
 int _direction = 0; // 0 is forward
 //
+char* replyOK = {"OK\n"};
+char resetByte = '!';
+char stopByte = '#';
+char* upKey = {"up"};
+char* downKey = {"down"};
+char* leftKey = {"left"};
+char* rightKey = {"right"};
+char* stopKey = {"stop"};
+
+int incomingByte = 0;
+int charCount = 0;
+char command[MAX_COMMAND_LENGTH + 1]; // leave space for \0
+bool locked = false;
+
 
 void setup() {
   //--------Setup Channel A--------//
@@ -50,7 +67,7 @@ void setup() {
 }
 
 void loop() {
-
+/*
   delay (10);
   //taking distances from sonars
   distance1 = getDistance(initPin1, echoPin1);
@@ -70,6 +87,43 @@ void loop() {
   Serial.println (distance2);
   Serial.print ("#3: ");
   Serial.println (distance3);
+  */
+  
+  if (Serial.available()) {
+    incomingByte = Serial.read();
+
+    if ((char)incomingByte == resetByte) {
+      locked = false;
+      charCount = 0;
+      return;
+    }
+
+    if (locked) {
+      Serial.println("@");
+      return;
+    }
+
+    if ((char)incomingByte != stopByte) {
+      if (charCount > MAX_COMMAND_LENGTH - 1) {
+        Serial.println("@");
+        locked = true;
+        return;
+      }
+      else {
+        command[charCount] = (char)incomingByte;
+        charCount++;
+      }
+    }
+    else {
+      command[charCount] = '\0';
+      charCount = 0;
+      if (strcmp(stopKey, command) == 0) {
+        brake ();
+        Serial.println ("break");
+      }
+
+    }
+  }
 
 }
 

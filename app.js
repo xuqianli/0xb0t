@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-//                         Import Node Modules
+//                           Import Node Modules
 //------------------------------------------------------------------------------
 var express = require('express');
 var path = require('path');
@@ -7,13 +7,24 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var socket = require("socket.io");
+var socket_io = require("socket.io");
 var SerialPort = require("serialport").SerialPort
 
+var routes = require('./routes/index');
+var users = require('./routes/users');
+
+// Express
+var app = express();
+
+// Socket.io
+var io = socket_io();
+app.io = io;
+
 //------------------------------------------------------------------------------
-//                        Serial Port Connection
+//                          Serial Port Connection
 //------------------------------------------------------------------------------
 var receivedData = "";
+var command = process.argv[2];
 var serialPort = new SerialPort("/dev/tty.usbmodem1451", {
 
   // baudrate is synced to Arduino
@@ -36,37 +47,56 @@ serialPort.open(function (error) {
 
     // Listens to incoming data
     serialPort.on('data', function(data) {
-
-      receivedData += data;
-      console.log('data received: ' + receivedData);
-
-      if (receivedData.indexOf('#') >= 0 && receivedData.indexOf('$') >= 0) {
-        // save the data between '$' and '#'
-        sendData = receivedData.substring(receivedData.indexOf('$') + 1,
-        receivedData.indexOf('#'));
-        console.log('data received: ' + sendData);
-        receivedData = '';
-	     }
-
+      result = data.trim();
+      console.log('data received: ' + result);
+      if (result === 'OK') {
+          console.log('command successful');
+      }
+      else {
+          console.log('command not successful');
+      }
     });
 
-    serialPort.write("ls\n", function(err, results) {
+
+    console.log("waiting...");
+    command = command + '#'
+    serialPort.write(command, function(err, results) {
       console.log('err ' + err);
       console.log('results ' + results);
     });
+
   }
 });
 
 
+//------------------------------------------------------------------------------
+//                          Socket.io Events
+//------------------------------------------------------------------------------
 
+io.sockets.on('connection', function(socket) {
 
+  socket.on('keydown', function(dir) {
+    switch(dir){
+     case 'up':
+        console.log ('up');
+        break;
+      case 'down':
+        console.log ('down');
+        break;
+      case 'left':
+        console.log ('left');
+        break;
+      case 'right':
+        console.log ('right');
+        break;
+    }
+  });
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+  socket.on('keyup', function(dir){
+    console.log ('stop');
+  });
 
-
-
-var app = express();
+});
 
 
 
