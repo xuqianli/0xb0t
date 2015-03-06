@@ -91,8 +91,13 @@ void loop() {
   
   if (Serial.available()) {
     incomingByte = Serial.read();
-
-    if ((char)incomingByte == resetByte) {
+    
+    if (incomingByte > 0){
+      Serial.println (incomingByte);
+    }
+   // delay (1000);
+    incomingByte = 0;
+    /*if ((char)incomingByte == resetByte) {
       locked = false;
       charCount = 0;
       return;
@@ -121,8 +126,8 @@ void loop() {
         brake ();
         Serial.println ("break");
       }
-
-    }
+  
+    }*/
   }
 
 }

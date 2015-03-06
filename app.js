@@ -20,55 +20,12 @@ var app = express();
 var io = socket_io();
 app.io = io;
 
-//------------------------------------------------------------------------------
-//                          Serial Port Connection
-//------------------------------------------------------------------------------
-var receivedData = "";
-var command = process.argv[2];
-var serialPort = new SerialPort("/dev/tty.usbmodem1451", {
-
-  // baudrate is synced to Arduino
-  baudrate: 9600,
-
-  // Default settings for Arduino serial connection
-  dataBits: 8,
-  parity: 'none',
-  stopBits: 1,
-  flowControl: false,
-
-}, false); // this is the openImmediately flag [default is true]
-
-// Open new event
-serialPort.open(function (error) {
-  if ( error ) {
-    console.log('failed to open: '+error);
-  } else {
-    console.log('open');
-
-    // Listens to incoming data
-    serialPort.on('data', function(data) {
-      result = data.trim();
-      console.log('data received: ' + result);
-      if (result === 'OK') {
-          console.log('command successful');
-      }
-      else {
-          console.log('command not successful');
-      }
-    });
 
 
-    console.log("waiting...");
-    command = command + '#'
-    serialPort.write(command, function(err, results) {
-      console.log('err ' + err);
-      console.log('results ' + results);
-    });
-
-  }
-});
 
 
+
+var command = 'stop';
 //------------------------------------------------------------------------------
 //                          Socket.io Events
 //------------------------------------------------------------------------------
@@ -78,27 +35,78 @@ io.sockets.on('connection', function(socket) {
   socket.on('keydown', function(dir) {
     switch(dir){
      case 'up':
-        console.log ('up');
+        console.log ('π - up');
+        command = 1; 
         break;
       case 'down':
         console.log ('down');
+        command = 2;
         break;
       case 'left':
         console.log ('left');
+        command = 3;
         break;
       case 'right':
         console.log ('right');
+        command = 4;
         break;
     }
+
+    serialWrite (command);
+    
   });
 
   socket.on('keyup', function(dir){
-    console.log ('stop');
+    console.log ('pi = s');
+    command = 5;
+    serialWrite (command);
   });
-
 });
 
+//------------------------------------------------------------------------------
+//                          Serial Port Connection
+//------------------------------------------------------------------------------
+var serialWrite = function (data)
+{
+  var receivedData = "";
 
+
+  // Open new event
+  // serialPort.open(function (error) {
+  //   if ( error ) {
+  //     console.log('failed to open: '+error);
+  //   } else {
+  //     console.log('open');
+
+      // Listens to incoming data
+      if (serialPort)
+      {
+        serialPort.on('data', function(data) {
+          receivedData = data;
+     
+          console.log('data received: ' + receivedData);
+          /*if (result == 'OK') {
+              console.log('command successful');
+          } 
+          else {
+              console.log('command not successful');
+          }*/
+        }); 
+
+
+         console.log("waiting...");
+         command = 'Y';
+         console.log ('raspberry pi =' + command);
+         serialPort.write(command, function(err, results) {
+           console.log('error ' + err);
+           console.log('results ' + results);
+         });
+
+      } else {
+        console.log ('serial port is null');
+      }
+  //});
+}
 
 
 // view engine setup
