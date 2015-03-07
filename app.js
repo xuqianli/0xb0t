@@ -9,7 +9,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var socket_io = require("socket.io");
 var SerialPort = require("serialport").SerialPort
-
+var socketServer = require ('./modules/socket_server.js')
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -17,6 +17,7 @@ var users = require('./routes/users');
 var app = express();
 
 // Socket.io
+
 var io = socket_io();
 app.io = io;
 
@@ -24,7 +25,8 @@ app.io = io;
 
 
 
-
+socketServer.init (io);
+/*
 var command = 'stop';
 //------------------------------------------------------------------------------
 //                          Socket.io Events
@@ -90,7 +92,7 @@ var serialWrite = function (data)
           } 
           else {
               console.log('command not successful');
-          }*/
+          }
         }); 
 
 
@@ -106,7 +108,7 @@ var serialWrite = function (data)
         console.log ('serial port is null');
       }
   //});
-}
+}*/
 
 
 // view engine setup

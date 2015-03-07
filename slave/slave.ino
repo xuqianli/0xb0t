@@ -19,23 +19,7 @@ int distance3 =0;
 const int speedA = 200;
 const int speedB = 200;
 const int MAX_COMMAND_LENGTH = 255;
-
-int _direction = 0; // 0 is forward
-//
-char* replyOK = {"OK\n"};
-char resetByte = '!';
-char stopByte = '#';
-char* upKey = {"up"};
-char* downKey = {"down"};
-char* leftKey = {"left"};
-char* rightKey = {"right"};
-char* stopKey = {"stop"};
-
-int incomingByte = 0;
-int charCount = 0;
-char command[MAX_COMMAND_LENGTH + 1]; // leave space for \0
-bool locked = false;
-
+int incomingByte;
 
 void setup() {
   //--------Setup Channel A--------//
@@ -91,44 +75,33 @@ void loop() {
   
   if (Serial.available()) {
     incomingByte = Serial.read();
-    
-    if (incomingByte > 0){
-      Serial.println (incomingByte);
-    }
-   // delay (1000);
-    incomingByte = 0;
-    /*if ((char)incomingByte == resetByte) {
-      locked = false;
-      charCount = 0;
-      return;
-    }
-
-    if (locked) {
-      Serial.println("@");
-      return;
-    }
-
-    if ((char)incomingByte != stopByte) {
-      if (charCount > MAX_COMMAND_LENGTH - 1) {
-        Serial.println("@");
-        locked = true;
-        return;
-      }
-      else {
-        command[charCount] = (char)incomingByte;
-        charCount++;
-      }
-    }
-    else {
-      command[charCount] = '\0';
-      charCount = 0;
-      if (strcmp(stopKey, command) == 0) {
+    switch (incomingByte) {
+      case 117:
+        Serial.println ("u");
+        forward (100);
+        break;
+      case 100:
+        Serial.println ("d");
+        backward (100);
+        break;
+      case 108:
+        Serial.println ("l");
+        turnLeft ();
+        break;
+      case 114:
+        Serial.println ("r");
+        turnRight ();
+        break;
+      case 115:
+        Serial.println ("s");
         brake ();
-        Serial.println ("break");
-      }
-  
-    }*/
+        break; 
+      default:
+        brake ();
+        break;
+    }
   }
+
 
 }
 
@@ -176,24 +149,19 @@ void backward (int time) {
   delay (time);
 }
 
-void left (int time) {
+void turnLeft () {
   analogWrite (6, 150);
   analogWrite (11, 0);
   digitalWrite (8, LOW);
   digitalWrite (7, HIGH);
-  delay (time);
-  analogWrite (11, speedA);
-  analogWrite (6, speedB);
+
 }
 
-void right (int time) {
+void turnRight () {
   analogWrite (11, 150);
   analogWrite (6, 0);
   digitalWrite (13, LOW);
   digitalWrite (12, HIGH);
-  delay (time);
-  analogWrite (11, speedA);
-  analogWrite (6, speedB);
 }
 
 void pause (int time){

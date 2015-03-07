@@ -1,15 +1,32 @@
 /*
   Global Variable
 */
-var SerialPort =require("serialport").SerialPort;
+var serialport =require("serialport");
 var socket = require('./socket_server');
 var exec = require('exec');
 var read;
 var write;
-var arduino; 
+var arduino;  
 var portConnect;
 var findArduino;
 var findArduinoOnPi
+
+
+/*
+  Public API
+*/
+
+exports.writeDirection = function (dir) {
+ 
+  write (new Buffer(dir));
+
+}
+
+exports.response = function (dir) {
+ // console.log ('sending direction commands to arduino');
+  return read ();
+
+}
 
 /*
   Serial Connection Initializtion
@@ -30,19 +47,19 @@ findArduinoOnLinux = function () {
       }
     }
     if (port){
-      attemptConnection(port);
+      portConnect(port);
     }   else{
       findArduinoOnPi();
     }
-  )};
+  });
 }
 
 findArduinoOnPi = function () {
   var port;
 
-  SerialPort.list(function (err, ports) {
+  serialport.list(function (err, ports) {
 
-    ports.forEach(function(port) {
+    ports.forEach(function(obj) {
 
       if (obj.hasOwnProperty('pnpId')){
         // FTDI captures the duemilanove //
@@ -67,12 +84,12 @@ findArduinoOnPi = function () {
 // Initializes arduino connection
 portConnect = function (port) {
 
-  console.log ('Initializing SerialPort Connection with ' + port;);
+  console.log ('Initializing serialport Connection with ' + port);
 
   // Create new serialPort object 
-  arduino = new SerialPort(port, {
+  arduino = new serialport.SerialPort(port, {
     // baudrate is synced to Arduino
-    baudrate: 9600;
+    baudrate: 9600,
     // Default settings for Arduino serial connection
     dataBits: 8,
     parity: 'none',
@@ -108,7 +125,7 @@ read = function (){
       console.log ('recieved data: ' + receivedData);
     });
 
-    return data;
+    return receivedData;
 
   } else {
     console.log ('arduino not connected');
@@ -123,16 +140,13 @@ write = function (buffer){
     arduino.write(buffer, function(err, results) {
       if (err){
         console.log('error ' + err);
+      } else {
+        console.log('message send success: ' + buffer);
       }
 
      });
   }
 }
-
-/*
-  Public API
-*/
-
 
 
 
