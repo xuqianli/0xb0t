@@ -36,8 +36,6 @@ $(function () {
   });
 
   $(document).keyup(function(e){
-
-    $(button).removeClass('active');
     switch(e.which){
       case 87:
         if(!wIsDown) return;
