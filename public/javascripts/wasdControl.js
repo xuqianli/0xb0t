@@ -68,7 +68,7 @@ $(function () {
   $(document).ready(function(){
 
     // the w key
-    $("button").mousedown(function(){
+    $("button").bind('touchstart', function(){
       console.log ($(this).attr("id"));
       switch($(this).attr("id")){
         case "up":
@@ -95,16 +95,10 @@ $(function () {
           socket.emit('keydown', 'right');
           $('#right').addClass('active');
           break;
+        default:
+          break;
       }
-      $(this).after(function(){
-        if(wIsDown) return;
-        wIsDown = true;
-        socket.emit('keydown', 'up');
-        $('#up').addClass('active');
-      });
-    });
-
-    $("button").mouseup(function(){
+    }).bind('touchend', function(){
       switch($(this).attr("id")){
         case "up":
           if(!wIsDown) return;
@@ -130,10 +124,10 @@ $(function () {
           socket.emit('keyup', 'right');
           $('#right').removeClass('active');
           break;
-      }
-      });
-
+        default:
+          break;  
+      } // switch
+    });
 
   });
-
 });
