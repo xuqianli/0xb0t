@@ -1,4 +1,36 @@
-$(function () {
+$(
+var phi = 0, flipped = 0, mirrored = 0;
+
+function setXformClass () {
+  $('.xform').each(function(idx,el) {
+    el.className = "xform x" +(flipped ? "-flipped":"") + (mirrored ? "-mirrored" : "") + "-rotated-" + phi;
+  });
+}
+  $(document).ready(function() {
+  // set rotation angle phi and toggle rotate class
+  $('#rotate').click(function() {
+    phi = (phi + 90) % 360;
+    setXformClass();
+    if (phi % 180) {
+      $('.xform-p').addClass('rotated');
+    } else {
+      $('.xform-p').removeClass('rotated');
+    }
+  });
+  // toggle mirror class component
+  $('#mirror').click(function() {
+    mirrored = ! mirrored;
+    setXformClass();
+  });
+  // toggle flip class component
+  $('#flip').click(function() {
+    flipped = ! flipped;
+    setXformClass();
+  });
+});
+
+
+  function () {
 
    var socket = io.connect(),
     wIsDown = false,
