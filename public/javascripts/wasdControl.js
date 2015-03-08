@@ -12,57 +12,130 @@ $(function () {
         if(wIsDown) return;
         wIsDown = true;
         socket.emit('keydown', 'up');
-        $('.up').addClass('active');
+        $('#up').addClass('active');
         break;
       case 65:
         if(aIsDown) return;
         aIsDown = true;
         socket.emit('keydown', 'left');
-        $('.left').addClass('active');
+        $('#left').addClass('active');
         break;
       case 83:
         if(sIsDown) return;
         sIsDown = true;
         socket.emit('keydown', 'down');
-        $('.down').addClass('active');
+        $('#down').addClass('active');
         break;
       case 68:
         if(dIsDown) return;
         dIsDown = true;
         socket.emit('keydown', 'right');
-        $('.right').addClass('active');
+        $('#right').addClass('active');
         break;
     }
   });
 
   $(document).keyup(function(e){
+
+    $(button).removeClass('active');
     switch(e.which){
       case 87:
         if(!wIsDown) return;
         wIsDown = false;
         socket.emit('keyup', 'up');
-        $('.up').removeClass('active');
+        $('#up').removeClass('active');
         break;
       case 65:
         if(!aIsDown) return;
         aIsDown = false;
         socket.emit('keyup', 'left');
-        $('.left').removeClass('active');
+        $('#left').removeClass('active');
         break;
       case 83:
         if(!sIsDown) return;
         sIsDown = false;
         socket.emit('keyup', 'down');
-        $('.down').removeClass('active');
+        $('#down').removeClass('active');
         break;
       case 68:
         if(!dIsDown) return;
         dIsDown = false;
         socket.emit('keyup', 'right');
-        $('.right').removeClass('active');
+        $('#right').removeClass('active');
         break;
     }
   });
 
+  // for mouse clicks 
+  $(document).ready(function(){
+
+    // the w key
+    $("button").mousedown(function(){
+      console.log ($(this).attr("id"));
+      switch($(this).attr("id")){
+        case "up":
+          if(wIsDown) return;
+          wIsDown = true;
+          socket.emit('keydown', 'up');
+          $('#up').addClass('active');
+          break;
+        case "left":
+          if(aIsDown) return;
+          aIsDown = true;
+          socket.emit('keydown', 'left');
+          $('#left').addClass('active');
+          break;
+        case "down":
+          if(sIsDown) return;
+          sIsDown = true;
+          socket.emit('keydown', 'down');
+          $('#down').addClass('active');
+          break;
+        case "right":
+          if(dIsDown) return;
+          dIsDown = true;
+          socket.emit('keydown', 'right');
+          $('#right').addClass('active');
+          break;
+      }
+      $(this).after(function(){
+        if(wIsDown) return;
+        wIsDown = true;
+        socket.emit('keydown', 'up');
+        $('#up').addClass('active');
+      });
+    });
+
+    $("button").mouseup(function(){
+      switch($(this).attr("id")){
+        case "up":
+          if(!wIsDown) return;
+          wIsDown = false;
+          socket.emit('keyup', 'up');
+          $('#up').removeClass('active');
+          break;
+        case "left":
+          if(!aIsDown) return;
+          aIsDown = false;
+          socket.emit('keyup', 'left');
+          $('#left').removeClass('active');
+          break;
+        case "down":
+          if(!sIsDown) return;
+          sIsDown = false;
+          socket.emit('keyup', 'down');
+          $('#down').removeClass('active');
+          break;
+        case "right":
+          if(!dIsDown) return;
+          dIsDown = false;
+          socket.emit('keyup', 'right');
+          $('#right').removeClass('active');
+          break;
+      }
+      });
+
+
+  });
 
 });
