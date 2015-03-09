@@ -36,6 +36,21 @@ body{
   user-select: none;
 }
 
+video{
+  position:absolute;
+  top:0;
+  left:27%;
+  max-width:640px;
+  max-height:480px;
+  width:100%;
+  height:90%;  
+  border:10px solid #333;
+  left: 50%;
+  top: 70%;
+  margin-top:-550px;
+  margin-left:-330px;
+}
+
 iframe{
   position:absolute;
   top:0;
@@ -49,6 +64,7 @@ iframe{
   top: 70%;
   margin-top:-550px;
   margin-left:-330px;
+  -webkit-transform: rotate(180deg);
 }
 
 
@@ -115,6 +131,21 @@ a.active{
     margin-top:-400px;
     margin-left:-210px;
   }
+
+  video{
+    position:absolute;
+    top:0;
+    left:27%;
+    max-width:403px;
+    max-height:300px;
+    width:100%;
+    height:90%;  
+    border:10px solid #333;
+    left: 50%;
+    top: 70%;
+    margin-top:-400px;
+    margin-left:-210px;
+  }  
   .controlWrap {
     max-width: 300px;
     max-height: 200px;
