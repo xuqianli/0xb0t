@@ -141,7 +141,7 @@ int getDistance (int initPin, int echoPin){
 
 // Sends data to the raspberry pi as string
 void send (String message) {
-  Serial.println ("B" + message + "E");
+  Serial.print   ("B" + message + "E");
 }
  
  
