@@ -1,15 +1,13 @@
 extends layout
 block content
-  //- p(id ="xform")
-  //-   button(id = "rotate") rotate
-  //-   button(id = "mirror") mirror
-  //-   button(id = "flip") flip
-  
-  iframe(src='http://135.0.193.151:8554/stream')
-  div.controlWrap
-    button(id = "up", data-inline="true", data-theme="b") w
-    button(id = "left", data-inline="true", data-theme="b") a
-    button(id = "down", data-inline="true", data-theme="b") s
-    button(id = "right", data-inline="true", data-theme="b") d
+  section  
+    div.streamBox
+      image(src='http://135.0.193.151:8554/stream/video.mjpeg').mjpeg
+    div.controlWrap
+      div.topWrap
+        button(id = "up", data-inline="true", data-theme="b") w
+      button(id = "left", data-inline="true", data-theme="b") a
+      button(id = "down", data-inline="true", data-theme="b") s
+      button(id = "right", data-inline="true", data-theme="b") d
 
     

@@ -2,23 +2,35 @@ html, body{
   width:100%;
   height:100%;
   position:relative;
+  background: #2262AD;
 }
 
 body{
-  background:#eee;
+  
 }
 
-.controlWrap {
-  max-width: 300px;
-  max-height: 200px;
-  width:100%;
-  height:60%;
-  position: absolute;
-  left: 50%;
-  top: 70%;
-  margin-top:-70px;
-  margin-left:-165px;
+section {
 
+  margin: 80px auto 40px;
+  max-width: 980px;
+  position: relative;
+  padding: 20px;
+
+
+}
+
+/*
+  wasd wraps
+*/
+.controlWrap {
+  width: 300px;
+  height: 200px;
+  position: relative;
+  margin: 10px auto 20px;
+}
+
+.topWrap {
+  width:300;
 }
 
 
@@ -36,34 +48,20 @@ body{
   user-select: none;
 }
 
-video{
-  position:absolute;
-  top:0;
-  left:27%;
-  max-width:640px;
-  max-height:480px;
-  width:100%;
-  height:90%;  
-  border:10px solid #333;
-  left: 50%;
-  top: 70%;
-  margin-top:-550px;
-  margin-left:-330px;
-}
+/*
+  Streamming settings for UV4L
+*/
 
-iframe{
-  position:absolute;
-  top:0;
-  left:27%;
-  max-width:640px;
-  max-height:480px;
-  width:100%;
-  height:90%;  
+.streamBox {
+  position:relative;
+  max-width:540px;
+  height:380px;
   border:10px solid #333;
-  left: 50%;
-  top: 70%;
-  margin-top:-550px;
-  margin-left:-330px;
+  margin: auto;
+}
+.mjpeg {
+  width:100%;
+  height:100%;
 }
 
 
@@ -98,64 +96,50 @@ a.active{
 }
 
 #up{ 
-  top: 110px;
-  left:130px;
+  margin-left: 36%
 }
 #left{
-  top:200px;
-  right:50px;
+  margin-left: 6%;
 }
 #down{
-  top:200px;
-  right:50px;
+
 }
 #right{
-  left:220px;
-  top:104px;
+
 }
 
 /*MEDIA QUERY*/
-@media only screen and (max-width : 660px) {
-  iframe{
-    position:absolute;
-    top:0;
-    left:27%;
-    max-width:403px;
-    max-height:300px;
-    width:100%;
-    height:90%;  
+
+
+/*
+  iphone 6 size
+*/
+@media only screen and (max-width : 600px) {
+
+ .streamBox {
+    position:relative;
+    height:300px;
     border:10px solid #333;
-    left: 50%;
-    top: 70%;
-    margin-top:-400px;
-    margin-left:-210px;
+    margin: auto;
   }
 
-  video{
-    position:absolute;
-    top:0;
-    left:27%;
-    max-width:403px;
-    max-height:300px;
-    width:100%;
-    height:90%;  
-    border:10px solid #333;
-    left: 50%;
-    top: 70%;
-    margin-top:-400px;
-    margin-left:-210px;
-  }  
+
   .controlWrap {
-    max-width: 300px;
-    max-height: 200px;
-    width:100%;
-    height:60%;
-    position: absolute;
-    left: 50%;
-    top: 70%;
-    margin-top:-150px;
-    margin-left:-165px;
+    width: 300px;
+    height: 200px;
+    position: relative;
+    margin: 60px auto 0px;
+  }  
 
-  }
+  section {
+
+    margin: 0px auto 0px;
+    max-width: 980px;
+    position: relative;
+    padding: 20px;
+
+  }  
+
+
 }
 
