@@ -54,7 +54,6 @@ recieveDirections = function (socket) {
         break;
     }
     arduino.writeDirection (command);
-    arduino.response();
     
   });
 
@@ -62,7 +61,6 @@ recieveDirections = function (socket) {
     console.log ('stop');
     command = 's';
     arduino.writeDirection (command);
-    //arduino.response();
 
     
   });
