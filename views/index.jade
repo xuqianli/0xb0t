@@ -1,6 +1,17 @@
 extends layout
 block content
   section  
+    table
+      tr 
+        td Distance 1 : 
+        td(id = "distance1") 1
+      tr
+        td Distance 2 : 
+        td(id = "distance2") 2
+      tr
+        td Distance 3 : 
+        td(id = "distance3") 3
+
     div.streamBox
       image(src='http://135.0.193.151:8554/stream/video.mjpeg').mjpeg
     div.controlWrap

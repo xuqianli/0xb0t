@@ -20,6 +20,8 @@ const int speedA = 200;
 const int speedB = 200;
 const int MAX_COMMAND_LENGTH = 255;
 int incomingByte;
+const char BG = 'B';
+const char ED = 'E';
 
 void setup() {
   //--------Setup Channel A--------//
@@ -51,49 +53,67 @@ void setup() {
 }
 
 void loop() {
-/*
+
   delay (10);
-  //taking distances from sonars
-  distance1 = getDistance(initPin1, echoPin1);
+  //taking distances from sonars less than 1 meter
+  if (getDistance(initPin1, echoPin1) < 100){
+    distance1 = getDistance(initPin1, echoPin1);
+    send ("#1:"+ String(distance1));    
+  } else {
+   send ("#1:over"); 
+  }
+  
   delay (50);
-  distance2 = getDistance(initPin2, echoPin2);
+  
+  if (getDistance(initPin2, echoPin2) < 100){
+    distance2 = getDistance(initPin2, echoPin2);\
+    send ("#2:" + String(distance2));    
+  } else {
+   send ("#2:over"); 
+  }
+  
   delay (50);
-  distance3 = getDistance(initPin3, echoPin3);
+  
+  if (getDistance(initPin3, echoPin3) < 100){
+    distance3 = getDistance(initPin3, echoPin3);
+    send ("#3:" + String(distance3));
+  } else {
+   send ("#3:over"); 
+  }
+  
   delay (50);
+   
+   
    //initializing speed
   analogWrite (11, speedA);
  // digitalWrite (13, LOW);
   analogWrite (6, speedB);
   
-  Serial.print ("#1: ");
-  Serial.println (distance1);
-  Serial.print ("#2: ");
-  Serial.println (distance2);
-  Serial.print ("#3: ");
-  Serial.println (distance3);
-  */
+
+
+  
   
   if (Serial.available()) {
     incomingByte = Serial.read();
     switch (incomingByte) {
       case 117:
-        Serial.println ("u");
+        send ("up");
         forward (100);
         break;
       case 100:
-        Serial.println ("d");
+        send ("down");
         backward (100);
         break;
       case 108:
-        Serial.println ("l");
+        send ("left");
         turnLeft ();
         break;
       case 114:
-        Serial.println ("r");
+        send ("right");
         turnRight ();
         break;
       case 115:
-        Serial.println ("s");
+        send ("s");
         brake ();
         break; 
       default:
@@ -117,6 +137,11 @@ int getDistance (int initPin, int echoPin){
  int distance = pulseTime/58;
  return distance;
  
+}
+
+// Sends data to the raspberry pi as string
+void send (String message) {
+  Serial.println ("B" + message + "E");
 }
  
  

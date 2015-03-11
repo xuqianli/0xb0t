@@ -2,7 +2,7 @@
 /*
   Global Variables
 */
-var sockets;
+var sockets; // for initializing the connection
 var arduino = require('./serial_communication');
 var activeUser;
 var recieveDirections;
@@ -24,6 +24,10 @@ exports.init = function(io){
     recieveDirections (socket);
   });
 } 
+
+exports.updateDistance = function (distance) {
+  sockets.emit ('update distance', distance);
+}
 
 /*
   Socket Events Lists
@@ -50,7 +54,7 @@ recieveDirections = function (socket) {
         break;
     }
     arduino.writeDirection (command);
-    //arduino.response();
+    arduino.response();
     
   });
 
