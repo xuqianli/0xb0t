@@ -15,13 +15,20 @@ int echoPin3 =2;
 int initPin3 =3;
 int distance3 =0;
 
-//defining constants
+//Speed Constants
 const int speedA = 200;
 const int speedB = 200;
+
+//Command Transfer Constants
 const int MAX_COMMAND_LENGTH = 255;
 int incomingByte;
 const char BG = 'B';
 const char ED = 'E';
+
+//Distances message
+String message1 = "";
+String message2 = "";
+String message3 = "";
 
 void setup() {
   //--------Setup Channel A--------//
@@ -53,7 +60,6 @@ void setup() {
 }
 
 void loop() {
-
   delay (10);
   //taking distances from sonars less than 1 meter
   if (getDistance(initPin1, echoPin1) < 100){
@@ -82,38 +88,33 @@ void loop() {
   }
   
   delay (50);
-   
-   
-   //initializing speed
-  analogWrite (11, speedA);
- // digitalWrite (13, LOW);
-  analogWrite (6, speedB);
-  
+ 
 
-
-  
-  
-  if (Serial.available()) {
+  if (Serial.available()) {  
+    
+  delay (10);
+    
+    // read incomming 
     incomingByte = Serial.read();
     switch (incomingByte) {
       case 117:
-        send ("up");
-        forward (100);
+        //send ("up");
+        forward ();
         break;
       case 100:
-        send ("down");
-        backward (100);
+        //send ("down");
+        backward ();
         break;
       case 108:
-        send ("left");
+        //send ("left");
         turnLeft ();
         break;
       case 114:
-        send ("right");
+        //send ("right");
         turnRight ();
         break;
       case 115:
-        send ("s");
+        //send ("s");
         brake ();
         break; 
       default:
@@ -140,13 +141,13 @@ int getDistance (int initPin, int echoPin){
 }
 
 // Sends data to the raspberry pi as string
-void send (String message) {
-  Serial.print   ("B" + message + "E");
+void send (String messageSend) {
+  Serial.print   ("B" + messageSend + "E");
 }
  
  
  
-void  forward (int time) {
+void  forward () {
    
   analogWrite (11, speedA);   
   analogWrite (6, speedB); 
@@ -157,10 +158,9 @@ void  forward (int time) {
    // channel A
   digitalWrite (13, LOW);
   digitalWrite (12, HIGH);
-  delay (time);
 }
 
-void backward (int time) {
+void backward () {
   
   analogWrite (11, speedA);   
   analogWrite (6, speedB); 
@@ -171,7 +171,6 @@ void backward (int time) {
    // channel A
   digitalWrite (13, HIGH);
   digitalWrite (12, LOW);
-  delay (time);
 }
 
 void turnLeft () {

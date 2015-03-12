@@ -29,11 +29,6 @@ exports.response = function (dir) {
 
 }
 
-exports.readDistances = function () {
-  
- // for ()
-
-}
 
 /*
   Serial Connection Initializtion

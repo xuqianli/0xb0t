@@ -22,6 +22,8 @@ exports.init = function(io){
     //   console.log (dir);
     // });
     recieveDirections (socket);
+
+
   });
 } 
 
@@ -54,6 +56,7 @@ recieveDirections = function (socket) {
         break;
     }
     arduino.writeDirection (command);
+    arduino.response();
     
   });
 
