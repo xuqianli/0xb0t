@@ -4,9 +4,22 @@
 var sockets; // for initializing the connection
 var arduino = require('./serial_communication');
 var activeUser;
+
+// private methods declaration
 var recieveDirections;
+var autoStopCheckForward;
+var autoStopCheckBackward;
+var autoStopCheckSides;
+
+//variables
 var distanceResponse
-var autoStopCheck
+var command
+
+// true means obstacles ahead 
+var forwardObstacle = true;
+var backwardObstacle = true;
+var leftObstacle = true;
+var rightObstacle = true;
 
 // Distances
 var distance1 = 0;
@@ -55,6 +68,53 @@ exports.updateDistance = function (distance) {
       break;
   }  
 
+  switch(command){
+    case 'u':
+      if (autoStopCheckForward()){
+        command = 'u'; 
+        forwardObstacle = false;
+      } else {
+        command = 's';
+        forwardObstacle = true;
+        console.log ('autoStopCheckForward');
+      }      
+      break; 
+    case 'd':
+      if (autoStopCheckBackward()){
+        command = 'd'; 
+        backwardObstacle = false;
+      } else {
+        command = 's';
+        backwardObstacle = true;
+        console.log ('autoStopCheckBackward');
+      }    
+      break;      
+    case 'l':
+      if (autoStopCheckSides(distance3)){
+        command = 'l'; 
+        leftObstacle = false;
+      } else {
+        command = 's';
+        leftObstacle = true;
+        console.log ('autoStopCheckLeft');
+      }    
+      break; 
+    case 'r':
+      if (autoStopCheckSides(distance1)){
+        command = 'r'; 
+        rightObstacle = false;
+      } else {
+        command = 's';
+        rightObstacle = true;
+        console.log ('autoStopCheckRight');
+      }    
+      break; 
+    case 's':
+      break;             
+  }
+
+  arduino.writeDirection (command);  
+
 }
 
 /*
@@ -66,54 +126,27 @@ recieveDirections = function (socket) {
     arduino.response();    
     switch(dir){
      case 'up':
-        console.log ('up'); // 117
-        if (autoStopCheckForward()){
-          command = 'u'; 
-        } else {
-          command = 's';
-          console.log ('autoStopCheckForward');
-        }
+        command = 'u';
         break;
 
-      case 'down':
-        console.log ('down'); // 100
-        if (autoStopCheckBackward()){
-          command = 'd';
-        } else {
-          command = 's';
-          console.log ('autoStopCheckBackward')
-        }
+      case 'down':  
+        command = 'd';
+        console.log ('down')
         break;
 
       case 'left':
-        console.log ('left'); // 108
-        if (autoStopCheckSides(distance3)){
-          command = 'l'
-        } else {
-          command = 's';
-          console.log ('autoStopCheckSides')
-        }
+        command = 'l';
         break;
 
       case 'right':
-        console.log ('right'); // 108
-        if (autoStopCheckSides(distance1)){
-          command = 'r'
-        } else {
-          command = 's';
-          console.log ('autoStopCheckSides')
-        }
+        command = 'r';
         break;
     }
-
-    arduino.writeDirection (command);
   });
 
   socket.on('keyup', function(dir){ // 115
     console.log ('stop');
     command = 's';
-    arduino.writeDirection (command);
-
     
   });
 }
