@@ -13,7 +13,8 @@ var autoStopCheckSides;
 
 //variables
 var distanceResponse
-var command
+var command = 's';
+var oldCommand;
 
 // true means obstacles ahead 
 var forwardObstacle = true;
@@ -43,45 +44,56 @@ exports.init = function(io){
     socket.emit('connected-to-server' );
     console.log ('connected to the server');
     recieveDirections (socket);
+    arduino.response(); 
   });
 } 
 
 exports.updateDistance = function (distance) {
   sockets.emit ('update distance', distance);
-  var distanceRecieved = distance.substring(3);
-
-  if (distanceRecieved == 'over') {
-    distanceRecieved = 100;
-  } else {
-    distanceRecieved = parseInt(distance.substring(3));
-  }
 
   switch(distance.substring(0, 3)){
     case '#1:':
-      distance1 = distanceRecieved;
+      distance1 = distance.substring(3);
+      if (distance1 == 'over') {
+        distance1 = 100;
+      } else {
+        distance1 = parseInt(distance.substring(3));
+      }
       break;
     case '#2:':
-      distance2 = distanceRecieved;
+      distance2 = distance.substring(3);
+      if (distance2 == 'over') {
+        distance2 = 100;
+      } else {
+        distance2 = parseInt(distance.substring(3));
+      }
       break;
     case '#3:':
-      distance3 = distanceRecieved;
+      distance3 = distance.substring(3);
+      if (distance3 == 'over') {
+        distance3 = 100;
+      } else {
+        distance3 = parseInt(distance.substring(3));
+      }
       break;
   }  
-
+  //console.log ('distance1: ' + distance1);
+  //console.log ('switch case for command: ' + command);
+  //console.log ('autoStopCheckForward: ' + autoStopCheckForward ());
+  console.log ('commnad: ' + command);
   switch(command){
     case 'u':
+      console.log ('pressed u');
       if (autoStopCheckForward()){
-        command = 'u'; 
         forwardObstacle = false;
       } else {
         command = 's';
         forwardObstacle = true;
         console.log ('autoStopCheckForward');
       }      
-      break; 
+      break;
     case 'd':
       if (autoStopCheckBackward()){
-        command = 'd'; 
         backwardObstacle = false;
       } else {
         command = 's';
@@ -91,7 +103,6 @@ exports.updateDistance = function (distance) {
       break;      
     case 'l':
       if (autoStopCheckSides(distance3)){
-        command = 'l'; 
         leftObstacle = false;
       } else {
         command = 's';
@@ -101,7 +112,6 @@ exports.updateDistance = function (distance) {
       break; 
     case 'r':
       if (autoStopCheckSides(distance1)){
-        command = 'r'; 
         rightObstacle = false;
       } else {
         command = 's';
@@ -112,8 +122,14 @@ exports.updateDistance = function (distance) {
     case 's':
       break;             
   }
-
-//  arduino.writeDirection (command);  
+  
+  if (command != oldCommand){
+    arduino.writeDirection (command);  
+    oldCommand = command;
+  } else {
+    console.log ('same command');
+  }
+  
 
 }
 
@@ -123,47 +139,31 @@ exports.updateDistance = function (distance) {
 
 recieveDirections = function (socket) {
   socket.on('keydown', function(dir) {
-    arduino.response();    
+    console.log ("keydown");
+       
     switch(dir){
-     case 'up':
-        if (!forwardObstacle) {
-          command = 'u';
-        } else {
-          command = 's';
-        }        
+      case 'up':
+        command = 'u';
+      
         break;
 
       case 'down':
-        if (!backwardObstacle) {
-          command = 'd';
-        } else {
-          command = 's';
-        }
+        command = 'd';
         break;
-
+      
       case 'left':
-        if (!leftObstacle) {
-          command = 'l';
-        } else {
-          command = 's';
-        }
+        command = 'l';
         break;
 
       case 'right':
-        if (!rightObstacle) {
-          command = 'r';
-        } else {
-          command = 's';
-        }
+        command = 'r'
         break;
     }
-    arduino.writeDirection (command);
   });
 
   socket.on('keyup', function(dir){ // 115
     console.log ('stop');
     command = 's';
-    arduino.writeDirection (command);
   });
 }
 
