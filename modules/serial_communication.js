@@ -10,7 +10,7 @@ var arduino;
 var portConnect;
 var findArduino;
 var findArduinoOnPi;
-var distances = [];
+var distanceData="";
 
 
 /*
@@ -24,8 +24,9 @@ exports.writeDirection = function (dir) {
 }
 
 exports.response = function (dir) {
- // console.log ('sending direction commands to arduino');
-  return read ();
+
+  read ();
+  return distanceData;
 
 }
 
@@ -119,20 +120,18 @@ findArduinoOnLinux ();
 // Reads data from arduino
 read = function (){
   var receivedData=""; 
-  var readData="";
+
 
   if (arduino)
   {
     arduino.on('data', function(data) {
       receivedData += String(data);
-      var asdf = "asdf"
       if (receivedData .indexOf('B') >= 0 && receivedData .indexOf('E') >= 0) {
         
         var Epostion = receivedData.indexOf('E');
         receivedData =receivedData.substring(1,Epostion);
-        //console.log (receivedData);
         socket.updateDistance(receivedData);
-        readData = receivedData;
+        distanceData = receivedData;
         receivedData ="";
       }
     });
