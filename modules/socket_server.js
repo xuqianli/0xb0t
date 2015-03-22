@@ -113,7 +113,7 @@ exports.updateDistance = function (distance) {
       break;             
   }
 
-  arduino.writeDirection (command);  
+//  arduino.writeDirection (command);  
 
 }
 
@@ -126,28 +126,44 @@ recieveDirections = function (socket) {
     arduino.response();    
     switch(dir){
      case 'up':
-        command = 'u';
+        if (!forwardObstacle) {
+          command = 'u';
+        } else {
+          command = 's';
+        }        
         break;
 
-      case 'down':  
-        command = 'd';
-        console.log ('down')
+      case 'down':
+        if (!backwardObstacle) {
+          command = 'd';
+        } else {
+          command = 's';
+        }
         break;
 
       case 'left':
-        command = 'l';
+        if (!leftObstacle) {
+          command = 'l';
+        } else {
+          command = 's';
+        }
         break;
 
       case 'right':
-        command = 'r';
+        if (!rightObstacle) {
+          command = 'r';
+        } else {
+          command = 's';
+        }
         break;
     }
+    arduino.writeDirection (command);
   });
 
   socket.on('keyup', function(dir){ // 115
     console.log ('stop');
     command = 's';
-    
+    arduino.writeDirection (command);
   });
 }
 
