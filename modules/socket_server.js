@@ -17,10 +17,10 @@ var command = 's';
 var oldCommand;
 
 // true means obstacles ahead 
-var forwardObstacle = true;
-var backwardObstacle = true;
-var leftObstacle = true;
-var rightObstacle = true;
+var forwardObstacle = false;
+var backwardObstacle = false;
+var leftObstacle = false;
+var rightObstacle = false;
 
 // Distances
 var distance1 = 0;
@@ -151,15 +151,15 @@ recieveDirections = function (socket) {
         break;
 
       case 'down':
-        if (!forwardObstacle){
-          command = 'u';
+        if (!backwardObstacle){
+          command = 'd';
         } else {
           command = 's';
         }
         break;
       
       case 'left':
-        if (!forwardObstacle){
+        if (!leftObstacle){
           command = 'l';
         } else {
           command = 's';
@@ -167,7 +167,7 @@ recieveDirections = function (socket) {
         break;
 
       case 'right':
-        if (!forwardObstacle){
+        if (!rightObstacle){
           command = 'r';
         } else {
           command = 's';
