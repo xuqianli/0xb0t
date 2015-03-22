@@ -143,20 +143,35 @@ recieveDirections = function (socket) {
        
     switch(dir){
       case 'up':
-        command = 'u';
-      
+        if (!forwardObstacle){
+          command = 'u';
+        } else {
+          command = 's';
+        }   
         break;
 
       case 'down':
-        command = 'd';
+        if (!forwardObstacle){
+          command = 'u';
+        } else {
+          command = 's';
+        }
         break;
       
       case 'left':
-        command = 'l';
+        if (!forwardObstacle){
+          command = 'l';
+        } else {
+          command = 's';
+        }
         break;
 
       case 'right':
-        command = 'r'
+        if (!forwardObstacle){
+          command = 'r';
+        } else {
+          command = 's';
+        }
         break;
     }
   });
