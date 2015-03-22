@@ -77,7 +77,7 @@ exports.updateDistance = function (distance) {
       }
       break;
   }  
-  //console.log ('distance1: ' + distance1);
+  console.log ('distance1: ' + distance1);
   //console.log ('switch case for command: ' + command);
   //console.log ('autoStopCheckForward: ' + autoStopCheckForward ());
   console.log ('commnad: ' + command);
@@ -85,10 +85,10 @@ exports.updateDistance = function (distance) {
     case 'u':
       console.log ('pressed u');
       if (autoStopCheckForward()){
-        forwardObstacle = false;
+       // forwardObstacle = false;
       } else {
         command = 's';
-        forwardObstacle = true;
+       // forwardObstacle = true;
         console.log ('autoStopCheckForward');
       }      
       break;
@@ -102,7 +102,7 @@ exports.updateDistance = function (distance) {
       }    
       break;      
     case 'l':
-      if (autoStopCheckSides(distance3)){
+      if (autoStopCheckLeft()){
         leftObstacle = false;
       } else {
         command = 's';
@@ -111,7 +111,7 @@ exports.updateDistance = function (distance) {
       }    
       break; 
     case 'r':
-      if (autoStopCheckSides(distance1)){
+      if (autoStopCheckRight()){
         rightObstacle = false;
       } else {
         command = 's';
@@ -143,7 +143,8 @@ recieveDirections = function (socket) {
        
     switch(dir){
       case 'up':
-        if (!forwardObstacle){
+      //  console.log ('autoStopCheckForward ' + autoStopCheckForward ());
+        if (autoStopCheckForward ()){
           command = 'u';
         } else {
           command = 's';
@@ -151,7 +152,7 @@ recieveDirections = function (socket) {
         break;
 
       case 'down':
-        if (!backwardObstacle){
+        if (autoStopCheckBackward ()){
           command = 'd';
         } else {
           command = 's';
@@ -159,7 +160,7 @@ recieveDirections = function (socket) {
         break;
       
       case 'left':
-        if (!leftObstacle){
+        if (autoStopCheckLeft ()){
           command = 'l';
         } else {
           command = 's';
@@ -167,7 +168,7 @@ recieveDirections = function (socket) {
         break;
 
       case 'right':
-        if (!rightObstacle){
+        if (autoStopCheckRight ()){
           command = 'r';
         } else {
           command = 's';
@@ -199,8 +200,16 @@ autoStopCheckBackward = function () {
   }
 }
 
-autoStopCheckSides = function (distance) {
-  if (distance>= 60) {
+autoStopCheckLeft = function () {
+  if (distance3>= 60) {
+    return true
+  } else {
+    return false
+  }
+}
+
+autoStopCheckRight = function () {
+  if (distance1>= 60) {
     return true
   } else {
     return false
