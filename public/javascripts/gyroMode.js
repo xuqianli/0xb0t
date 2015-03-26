@@ -55,32 +55,12 @@ $(
                 } else if (gammaLock - gamma <= -20) {
                   socket.emit('keydown', 'right');
                 }
-                
+
               }
 
 
             }  
           }          
-
-          // if (mode){
-          //   //forward or backward
-          //   if (betaLock - beta >= 20 && ) {
-          //     socket.emit('keydown', 'up');
-          //   } else if (betaLock - beta <= -20) {
-          //     socket.emit('keydown', 'down');
-          //   } else if (betaLock - beta < 20 && betaLock - beta > -20){
-          //     socket.emit('keyup');
-          //   }
-          //   // } else if (gammaLock - gamma >= 20) {
-          //   //   socket.emit('keydown', 'left');
-          //   // } else if (gammaLock - gamma <= -20) {
-          //   //   socket.emit('keydown', 'right');
-          //   // }
-          //   // else if (gammaLock - gamma <20 && gammaLock - gamma > -20){
-          //   //   socket.emit('keyup');            
-          //   // }
-
-          // }
 
     },100);    
 
