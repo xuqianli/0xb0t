@@ -139,11 +139,9 @@ exports.updateDistance = function (distance) {
 
 recieveDirections = function (socket) {
   socket.on('keydown', function(dir) {
-    console.log ("keydown");
-       
     switch(dir){
       case 'up':
-      //  console.log ('autoStopCheckForward ' + autoStopCheckForward ());
+        console.log ('up');
         if (autoStopCheckForward ()){
           command = 'u';
         } else {
@@ -152,6 +150,7 @@ recieveDirections = function (socket) {
         break;
 
       case 'down':
+        console.log ('down');
         if (autoStopCheckBackward ()){
           command = 'd';
         } else {
@@ -160,6 +159,7 @@ recieveDirections = function (socket) {
         break;
       
       case 'left':
+        console.log ('left');
         if (autoStopCheckLeft ()){
           command = 'l';
         } else {
@@ -168,6 +168,7 @@ recieveDirections = function (socket) {
         break;
 
       case 'right':
+        console.log ('right')
         if (autoStopCheckRight ()){
           command = 'r';
         } else {

@@ -65,7 +65,7 @@ $(
     }
   });
 
-  // for mouse clicks 
+  // for mobile touch clicks 
   $(document).ready(function(){
 
     // the w key

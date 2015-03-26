@@ -1,0 +1,32 @@
+extends layout
+block content
+  section  
+    table
+      tr 
+        td Distance 1:  
+        td(id = "distance1") 1
+        td.mobile Alpha
+        td.mobile(id = "alpha") alpha
+        td.mobile(id = "alphaLock") aLock          
+        td.mobile(id = "difference") difference
+      tr
+        td Distance 2: 
+        td(id = "distance2") 2
+        td.mobile Beta
+        td.mobile(id = "beta") beta
+        td.mobile(id = "betaLock") bLock        
+      tr
+        td Distance 3: 
+        td(id = "distance3") 3
+        td.mobile Gamma
+        td.mobile(id = "gamma") gamma
+        td.mobile(id = "gammaLock") gLock     
+    button.mobile(id = "gyroMode") gyroMode
+    div.streamBox
+      image(src='http://135.0.193.151:8554/stream/video.mjpeg').mjpeg
+    div.controlWrap
+      div.topWrap
+        button(id = "up", data-inline="true", data-theme="b") w
+      button(id = "left", data-inline="true", data-theme="b") a
+      button(id = "down", data-inline="true", data-theme="b") s
+      button(id = "right", data-inline="true", data-theme="b") d

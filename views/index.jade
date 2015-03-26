@@ -1,24 +1,11 @@
 extends layout
 block content
-  section  
-    table
-      tr 
-        td Distance 1 : 
-        td(id = "distance1") 1
-      tr
-        td Distance 2 : 
-        td(id = "distance2") 2
-      tr
-        td Distance 3 : 
-        td(id = "distance3") 3
-
-    div.streamBox
-      image(src='http://135.0.193.151:8554/stream/video.mjpeg').mjpeg
-    div.controlWrap
-      div.topWrap
-        button(id = "up", data-inline="true", data-theme="b") w
-      button(id = "left", data-inline="true", data-theme="b") a
-      button(id = "down", data-inline="true", data-theme="b") s
-      button(id = "right", data-inline="true", data-theme="b") d
-
-    
+  div.pageone(data-role='page')
+    div(data-role='header')
+      h1.welcomeText=title
+    div.ui-content(data-role='main')
+      a.button(id="startButton" , data-role="button", data-inline="true", href="/control") start
+    div(data-role='footer')
+      h1 Insert Footer Text Here
+  //h1.welcomeText=title
+ // a.button(id="startButton" , data-role="button", data-inline="true", href="/touchControl") start
