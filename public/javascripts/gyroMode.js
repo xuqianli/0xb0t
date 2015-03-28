@@ -14,7 +14,7 @@ $(
     beta = 0,
     gamma = 0;
 
-  if (window.DeviceMotionEvent==undefined) {
+  if (window.DeviceMotionEvent == null) {
     var elems = document.getElementsByClassName('mobile');
     for(var i = 0; i < elems.length; i++) {
       elems[i].style.display = 'none';
