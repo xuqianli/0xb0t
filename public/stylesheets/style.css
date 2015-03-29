@@ -11,7 +11,7 @@ body{
 
 section {
 
-  margin: 80px auto 40px;
+  margin: 20px auto 40px;
   max-width: 980px;
   position: relative;
   padding: 20px;
@@ -20,8 +20,21 @@ section {
 }
 
 /*
-  wasd wraps
+  Control divs
 */
+.mobileModes {
+  position: relative;
+
+}
+
+.streamBox {
+  position:relative;
+  max-width:540px;
+  height:380px;
+  border:10px solid #333;
+  margin: auto;
+}
+
 .controlWrap {
   width: 300px;
   height: 200px;
@@ -42,6 +55,10 @@ section {
   user-select: none;
 }
 
+/*
+  buttons
+*/
+
 #up{ 
   margin-left: 36%;
   width: 80px !important;
@@ -61,18 +78,20 @@ section {
   height: 80px;
 }
 
+#stop{
+  background: red;
+  color: white;
+}
+#start{
+  background: green;
+  color: white;
+}
 
 /*
   Streamming settings for UV4L
 */
 
-.streamBox {
-  position:relative;
-  max-width:540px;
-  height:380px;
-  border:10px solid #333;
-  margin: auto;
-}
+
 .mjpeg {
   width:100%;
   height:100%;
@@ -130,7 +149,7 @@ h1{
 
 
 /*
-  Page One
+  Index
 */
 .welcomeText {
   margin: 150px auto 10px;
@@ -138,10 +157,19 @@ h1{
 }
 
 #startButton {
-  margin: 200px auto 40px;
+  margin: 100px auto 40px;
   display: block;
-  width: 200px !important; 
+  max-width: 200px !important; 
   font-size: 60px;
+}
+
+/*
+  Index Divs
+*/
+
+.namebox {
+  max-width:400px;
+  margin: 100px auto 40px;
 }
 
 

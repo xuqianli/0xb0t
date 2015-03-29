@@ -4,6 +4,8 @@ block content
     div(data-role='header')
       h1.welcomeText=title
     div.ui-content(data-role='main')
+      div.namebox
+        input(type='text',id='name' , name='name', placeholder='Type You Name Please')
       a.button(id="startButton" , data-role="button", data-inline="true", href="/control") start
     div(data-role='footer')
       h1 Insert Footer Text Here
