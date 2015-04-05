@@ -1,0 +1,1 @@
+dd if=/dev/disknumber | gzip > /home/pathto/backup.bin.gz
