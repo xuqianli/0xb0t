@@ -1,0 +1,1 @@
+cmd_Release/obj.target/gpsAddon.node := flock ./Release/linker.lock g++ -shared -pthread -rdynamic  -Wl,-soname=gpsAddon.node -o Release/obj.target/gpsAddon.node -Wl,--start-group Release/obj.target/gpsAddon/gpsCoordinates.o -Wl,--end-group -lgps -lm -lgpsCoords
