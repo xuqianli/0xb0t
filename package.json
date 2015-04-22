@@ -17,6 +17,7 @@
     "pi-gpio": "*",
     "serialport": "*",
     "exec": "*",
-    "socket.io-client": "*"
+    "socket.io-client": "*",
+    "lazy": "*"
   }
 }

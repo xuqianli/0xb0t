@@ -3,10 +3,15 @@
 */
 var sockets; // for initializing the connection
 var arduino = require('./serial_communication');
-var activeUser;
+
+var autoDrive = require('./autoDrive');
+
+var fs = require('fs')
+var lazy = require("lazy")
 
 // private methods declaration
 var recieveDirections;
+var autoDriveEnable;
 var autoStopCheckForward;
 var autoStopCheckBackward;
 var autoStopCheckSides;
@@ -44,6 +49,7 @@ exports.init = function(io){
     socket.emit('connected-to-server' );
     console.log ('connected to the server');
     recieveDirections (socket);
+    autoDrive (socket);
     arduino.response(); 
   });
 } 
@@ -78,8 +84,6 @@ exports.updateDistance = function (distance) {
       break;
   }  
   console.log ('distance1: ' + distance1);
-  //console.log ('switch case for command: ' + command);
-  //console.log ('autoStopCheckForward: ' + autoStopCheckForward ());
   console.log ('commnad: ' + command);
   switch(command){
     case 'u':
@@ -184,6 +188,30 @@ recieveDirections = function (socket) {
   });
 }
 
+autoDriveEnable = function (socket) {
+  var count = 0;
+  var average = 0;
+  socket.on('autoDrive', function(dir){ // 115
+    new lazy(fs.createReadStream('./routeCoords.txt'))
+     .lines
+      .forEach(function(line){
+        count++;
+        if (count == 3) {
+          count = 0;
+          console.log(autoDrive.getDirections(line.toString()));
+        } 
+      }
+    );
+  });
+
+}
+
+
+
+
+
+
+// auto stop checks
 autoStopCheckForward = function () {
 
   if (distance1 >= 60 && distance3 >= 60) {
