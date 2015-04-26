@@ -1,16 +1,14 @@
 var lazy = require("lazy"),
     fs = require("fs");
-var count = 0;
 var average = 0;
-var routeCoords = [[]];
+var latitude = [];
+var longitude = [];
 new lazy(fs.createReadStream('./routeCoords.txt'))
   .lines
   .forEach(function(line, i){
     var coords = line.toString().split(', ');
-    console.log (parseFloat(coords[0]));
-    routeCoords [i][0] = 1;
-    // routeCoords [i][1] = parseFloat(coords[1]);
-    //console.log (routeCoords [i][0]);
+    latitude[i] = parseFloat(coords[0])
+    longitude[i] = parseFloat(coords[1])
   }
 );
 

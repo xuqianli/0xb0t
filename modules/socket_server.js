@@ -49,7 +49,7 @@ exports.init = function(io){
     socket.emit('connected-to-server' );
     console.log ('connected to the server');
     recieveDirections (socket);
-    autoDrive (socket);
+    autoDriveEnable (socket);
     arduino.response(); 
   });
 } 
@@ -192,16 +192,7 @@ autoDriveEnable = function (socket) {
   var count = 0;
   var average = 0;
   socket.on('autoDrive', function(dir){ // 115
-    new lazy(fs.createReadStream('./routeCoords.txt'))
-     .lines
-      .forEach(function(line){
-        count++;
-        if (count == 3) {
-          count = 0;
-          console.log(autoDrive.getDirections(line.toString()));
-        } 
-      }
-    );
+    autoDrive.getDirections();
   });
 
 }
