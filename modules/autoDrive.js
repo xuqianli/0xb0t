@@ -1,4 +1,4 @@
-var addon = require('./build/Release/gpsAddon');
+var addon = require('./gps/build/Release/gpsAddon');
 var gps = addon('start');
 var lazy = require("lazy"),
     fs = require("fs");
