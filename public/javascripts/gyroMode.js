@@ -17,7 +17,6 @@ $(
     
     if ( !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
       var elems = document.getElementsByClassName('mobile');
-      console.log ('hi');
       for(var i = 0; i < elems.length; i++) {
         elems[i].style.display = 'none';
       }

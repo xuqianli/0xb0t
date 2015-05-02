@@ -6,9 +6,6 @@ var arduino = require('./serial_communication');
 
 var autoDrive = require('./autoDrive');
 
-var fs = require('fs')
-var lazy = require("lazy")
-
 // private methods declaration
 var recieveDirections;
 var autoDriveEnable;
@@ -191,7 +188,8 @@ recieveDirections = function (socket) {
 autoDriveEnable = function (socket) {
   var count = 0;
   var average = 0;
-  socket.on('autoDrive', function(dir){ // 115
+  socket.on('autoDrive', function(dir){
+    console.log ('cool');
     autoDrive.getDirections();
   });
 
@@ -199,7 +197,7 @@ autoDriveEnable = function (socket) {
 
 
 
-
+ 
 
 
 // auto stop checks

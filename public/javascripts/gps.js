@@ -1,17 +1,18 @@
-$(function () {
+$(
+  function () {
 
-  var socket = io.connect(),
-  $(document).ready(function(){
-
+  var socket = io.connect();
     // the w key
   $('#gps').parent().on('click','#gps', function () {
     gMode = false;
-    $('#gps').text('Control');
-    $('#gps').attr('id', 'control'); 
+    $('#gps').text('GPS');
+    $('#gps').attr('id', 'Manual'); 
+    socket.emit('autoDrive', 'start');
   });
-  $('#gps').parent().on('click','#control',function () {
+  $('#gps').parent().on('click','#Manual',function () {
     gMode = true;
-    $('#control').text('GPS');
-    $('#control').attr('id', 'control'); 
+    $('#Manual').text('Manual');
+    $('#Manual').attr('id', 'gps'); 
   });
-});
+  }
+);
