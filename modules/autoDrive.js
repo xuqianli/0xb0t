@@ -1,44 +1,54 @@
 var fs = require("fs");
-
-exports.getDirections = function (arduino) {
-  return directrions (arduino);
+var arduino
+exports.getDirections = function (arduinoConnection) {
+  arduino = arduinoConnection;
+  return drive ();
 }
 
-var directrions = function (arduino) {
+var drive = function () {
   var gpsAverage = trimCoords();
-  var line = '';
-  var coords;
-  var coordinates = [];
   var correctPosition = false;
   var id = 0;
-
-  while (!correctPosition){
-    var addon = require('./gps/build/Release/gpsAddon');
-    var gps = addon('start');
-    line = gps.coordinates;
-    coords = line.toString().split(',');
-    coordinates[0] = (parseFloat(coords[0])).toFixed(5);
-    coordinates[1] = (parseFloat(coords[1])).toFixed(5);   
-    if (coordinates[0] != gpsAverage[id][0]){
-      if (coordinates[0] > gpsAverage[id][0]){
-        arduino.writeDirection ('u')
-      } else if (coordinates[0] < gpsAverage[id][0]){i
-
-      }
-    }
-    id++; 
-  }
-/*
   for (var i = 0; i < gpsAverage.length; i++) {
-    var addon = require('./gps/build/Release/gpsAddon');
-    var gps = addon('start');
-    line = gps.coordinates;
-    coords = line.toString().split(',');
-    coordinates[0] = (parseFloat(coords[0])).toFixed(5);
-    coordinates[1] = (parseFloat(coords[1])).toFixed(5);
-    console.log (coordinates);
+    setInitDir(gpsAverage[i]);
+  };
+
+  setInterval(routeLoop(gpsAverage), 3000)
+}
+
+var directrions = function (initDestination){
+  var initCoord = gpsCoords ();
+  var initLatDiff = Math.abs(initCoord[0] - initDestination[0]); // y coord
+  var initLonDiff = Math.abs(initCoord[1] - initDestination[1]); // x coord
   
-  };*/
+  arduinoCommand ('u', 1500);
+
+  var checkPoint = gpsCoords ();
+  var cpLatDiff = Math.abs(checkPoint[0] - initDestination[0]); // y coord
+  var cpLonDiff = Math.abs(checkPoint[1] - initDestination[1]); // x coord
+
+  if (cpLatDiff > cpLonDiff){
+    if (cpLatDiff > initLatDiff){
+      arduinoCommand ('r', 2000);
+      return 'lat';
+    } else {
+      return 'lat';
+    }
+  } else {
+    if (cpLonDiff > initLonDiff) {
+      arduinoCommand ('r', 2000);
+      return 'lon';
+    } else{
+      return 'lon';
+    }
+  }
+
+}
+
+var arduinoCommand = function (dir, delay){
+  arduino.writeDirection (dir); 
+  sleep(delay);
+  arduino.writeDirection ('s'); 
 }
 
 // trims the latitude and longitude to smooth the robot path
@@ -82,3 +92,24 @@ var triCoordsAverage = function (number1, number2, number3) {
   // result[1] = ((average[1] * 3 - preNumber[1] + nexNumber[1])/3).toFixed(5);
   return result;
 } 
+
+var gpsCoords = function (){
+  var addon = require('./gps/build/Release/gpsAddon');
+  var gps = addon('start');
+  var line = '';
+  var coords;
+  var coordinates = [];
+
+  line = gps.coordinates;
+  coords = line.toString().split(',');
+  coordinates[0] = (parseFloat(coords[0])).toFixed(5);
+  coordinates[1] = (parseFloat(coords[1])).toFixed(5); 
+  return coordinates;
+}
+
+function sleep(miliseconds) {
+  var currentTime = new Date().getTime();
+
+  while (currentTime + miliseconds >= new Date().getTime()) {
+  }
+}
