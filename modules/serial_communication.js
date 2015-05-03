@@ -52,7 +52,13 @@ findArduinoOnLinux = function () {
     if (port){
       portConnect(port);
     }   else{
-      findArduinoOnPi();
+      try {
+        findArduinoOnPi();
+      }
+      catch(err) {
+        console.log ("no arduino connected");
+      }
+      
     }
   });
 }
