@@ -15,9 +15,9 @@ var directrions = function (arduino) {
   for (var i = 0; i < gpsAverage.length; i++) {
     line = gps.coordinates;
     coords = line.toString().split(',');
-    coordinates[id] = [];
-    coordinates[id][0] = parseFloat(coords[0]);
-    coordinates[id][1] = parseFloat(coords[1]);
+    coordinates[i] = [];
+    coordinates[i][0] = parseFloat(coords[0]);
+    coordinates[i][1] = parseFloat(coords[1]);
     console.log (coordinates);
   
   };
