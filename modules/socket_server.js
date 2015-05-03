@@ -189,8 +189,7 @@ autoDriveEnable = function (socket) {
   var count = 0;
   var average = 0;
   socket.on('autoDrive', function(dir){
-    console.log ('cool');
-    autoDrive.getDirections();
+    autoDrive.getDirections(arduino);
   });
 
 }
