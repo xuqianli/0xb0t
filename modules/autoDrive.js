@@ -10,10 +10,11 @@ var drive = function () {
   var correctPosition = false;
   var id = 0;
   for (var i = 0; i < gpsAverage.length; i++) {
-    setInitDir(gpsAverage[i]);
-  };
-
-  setInterval(routeLoop(gpsAverage), 3000)
+    while (!correctPosition){
+      correctPosition = directrions(gpsAverage[i]);
+    }
+    
+  }
 }
 
 var directrions = function (initDestination){
@@ -30,17 +31,19 @@ var directrions = function (initDestination){
   if (cpLatDiff > cpLonDiff){
     if (cpLatDiff > initLatDiff){
       arduinoCommand ('r', 2000);
-      return 'lat';
+      return false;
     } else {
-      return 'lat';
+      return false;
     }
-  } else {
+  } else if (cpLatDiff < cpLonDiff) {
     if (cpLonDiff > initLonDiff) {
       arduinoCommand ('r', 2000);
-      return 'lon';
+      return false;
     } else{
-      return 'lon';
+      return false;
     }
+  } else if (cpLonDiff == 0 && cpLatDiff ==0){
+    return true;
   }
 
 }
@@ -88,8 +91,6 @@ var triCoordsAverage = function (number1, number2, number3) {
   var result = [];
   result[0] = ((number1[0] + number2[0] + number3[0])/3).toFixed(5);
   result[1] = ((number1[1] + number2[1] + number3[1])/3).toFixed(5);
-  // console.log (result);
-  // result[1] = ((average[1] * 3 - preNumber[1] + nexNumber[1])/3).toFixed(5);
   return result;
 } 
 
