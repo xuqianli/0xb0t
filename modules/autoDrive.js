@@ -22,7 +22,8 @@ var directrions = function (initDestination){
   var initLatDiff = Math.abs(initCoord[0] - initDestination[0]); // y coord
   var initLonDiff = Math.abs(initCoord[1] - initDestination[1]); // x coord
   
-  arduinoCommand ('u', 1500);
+  console.log ('Initial Forward Action -------- u');
+  arduinoCommand ('u');
 
   var checkPoint = gpsCoords ();
   var cpLatDiff = Math.abs(checkPoint[0] - initDestination[0]); // y coord
@@ -30,14 +31,14 @@ var directrions = function (initDestination){
 
   if (cpLatDiff > cpLonDiff){
     if (cpLatDiff > initLatDiff){
-      arduinoCommand ('r', 2000);
+      arduinoCommand ('r');
       return false;
     } else {
       return false;
     }
   } else if (cpLatDiff < cpLonDiff) {
     if (cpLonDiff > initLonDiff) {
-      arduinoCommand ('r', 2000);
+      arduinoCommand ('r');
       return false;
     } else{
       return false;
@@ -50,7 +51,6 @@ var directrions = function (initDestination){
 
 var arduinoCommand = function (dir, delay){
   arduino.writeDirection (dir); 
-  sleep(delay);
   arduino.writeDirection ('s'); 
 }
 
