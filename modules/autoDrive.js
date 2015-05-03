@@ -1,5 +1,3 @@
-var addon = require('./gps/build/Release/gpsAddon');
-var gps = addon('start');
 var fs = require("fs");
 
 exports.getDirections = function (arduino) {
@@ -11,16 +9,36 @@ var directrions = function (arduino) {
   var line = '';
   var coords;
   var coordinates = [];
+  var correctPosition = false;
+  var id = 0;
 
-  for (var i = 0; i < gpsAverage.length; i++) {
+  while (!correctPosition){
+    var addon = require('./gps/build/Release/gpsAddon');
+    var gps = addon('start');
     line = gps.coordinates;
     coords = line.toString().split(',');
-    coordinates[i] = [];
-    coordinates[i][0] = parseFloat(coords[0]);
-    coordinates[i][1] = parseFloat(coords[1]);
+    coordinates[0] = (parseFloat(coords[0])).toFixed(5);
+    coordinates[1] = (parseFloat(coords[1])).toFixed(5);   
+    if (coordinates[0] != gpsAverage[id][0]){
+      if (coordinates[0] > gpsAverage[id][0]){
+        arduino.writeDirection ('u')
+      } else if (coordinates[0] < gpsAverage[id][0]){i
+
+      }
+    }
+    id++; 
+  }
+/*
+  for (var i = 0; i < gpsAverage.length; i++) {
+    var addon = require('./gps/build/Release/gpsAddon');
+    var gps = addon('start');
+    line = gps.coordinates;
+    coords = line.toString().split(',');
+    coordinates[0] = (parseFloat(coords[0])).toFixed(5);
+    coordinates[1] = (parseFloat(coords[1])).toFixed(5);
     console.log (coordinates);
   
-  };
+  };*/
 }
 
 // trims the latitude and longitude to smooth the robot path
@@ -30,8 +48,6 @@ var trimCoords = function () {
 
   // set initial average 
   average[0]=[];
-  // average[0][0] = ((coordinates[0][0] + coordinates[1][0] + coordinates[2][0])/3).toFixed(5); // latitude average
-  // average[0][1] = ((coordinates[0][1] + coordinates[1][1] + coordinates[2][1])/3).toFixed(5); // longitude average
 
   for (var i = 0; i < coordinates.length; i+=3) {
     if (coordinates[i+2] != null) {
