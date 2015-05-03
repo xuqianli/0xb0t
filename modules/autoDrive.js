@@ -8,17 +8,18 @@ exports.getDirections = function (arduino) {
 
 var directrions = function (arduino) {
   var gpsAverage = trimCoords();
-
+  var line = '';
   var coords;
   var coordinates = [];
 
   for (var i = 0; i < gpsAverage.length; i++) {
-      coords = line.toString().split(',');
-      coordinates[id] = [];
-      coordinates[id][0] = parseFloat(coords[0]);
-      coordinates[id][1] = parseFloat(coords[1]);
-      console.log (coordinates);
-    
+    line = gps.coordinates;
+    coords = line.toString().split(',');
+    coordinates[id] = [];
+    coordinates[id][0] = parseFloat(coords[0]);
+    coordinates[id][1] = parseFloat(coords[1]);
+    console.log (coordinates);
+  
   };
 }
 

@@ -80,8 +80,8 @@ exports.updateDistance = function (distance) {
       }
       break;
   }  
-  console.log ('distance1: ' + distance1);
-  console.log ('commnad: ' + command);
+  // console.log ('distance1: ' + distance1);
+  // console.log ('commnad: ' + command);
   switch(command){
     case 'u':
       console.log ('pressed u');
@@ -128,7 +128,7 @@ exports.updateDistance = function (distance) {
     arduino.writeDirection (command);  
     oldCommand = command;
   } else {
-    console.log ('same command');
+    // console.log ('same command');
   }
   
 
